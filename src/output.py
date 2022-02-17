@@ -34,10 +34,7 @@ async def run_for_themes_with_progress(themes: List[Theme], async_function):
 
     live_display = rich.live.Live(progress)
 
-    tasks = []
-    for theme in themes:
-        tasks.append(async_function(theme=theme, progress=progress))
-
+    tasks = [async_function(theme=theme, progress=progress) for theme in themes]
     with live_display:
         await gather_with_limited_concurrency(8, *tasks)
 
